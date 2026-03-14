@@ -14,31 +14,46 @@ dotenv.config();
 
 const app = express();
 
-// create HTTP server
+/* ---------------- HTTP Server ---------------- */
+
 const server = http.createServer(app);
 
-// initialize socket server
+/* ---------------- Socket Server ---------------- */
+
 initSocket(server);
 
-app.use(cors());
+/* ---------------- Middleware ---------------- */
+
+app.use(
+ cors({
+  origin: "*", // change to your Vercel URL later
+  methods: ["GET","POST","PUT","DELETE"],
+  credentials: true
+ })
+);
+
 app.use(express.json());
 
-// connect MongoDB
+/* ---------------- Database ---------------- */
+
 connectDB();
 
-// API routes
+/* ---------------- Routes ---------------- */
+
 app.use("/api/auth", authRoutes);
 app.use("/api/token", tokenRoutes);
 app.use("/api/admin", adminRoutes);
 
-// test route
+/* ---------------- Test Route ---------------- */
+
 app.get("/", (req,res)=>{
- res.send("Smart Queue API Running");
+ res.send("Smart Queue API Running 🚀");
 });
+
+/* ---------------- Server ---------------- */
 
 const PORT = process.env.PORT || 5000;
 
-// start server
 server.listen(PORT,()=>{
  console.log(`Server running on port ${PORT}`);
 });

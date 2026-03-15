@@ -164,12 +164,11 @@
 //  );
 
 // }
-
 import { useState, useEffect } from "react";
 import api from "../services/api";
 import socket from "../socket/socket";
 
-export default function StudentDashboard(){
+export default function StudentDashboard() {
 
  const [token,setToken] = useState(null);
  const [studentsAhead,setStudentsAhead] = useState(0);
@@ -179,85 +178,86 @@ export default function StudentDashboard(){
  const tokenAuth = localStorage.getItem("token");
 
  const headers = {
-  Authorization:`Bearer ${tokenAuth}`
+  Authorization: `Bearer ${tokenAuth}`
  };
 
- // generate token
- const generateToken = async () =>{
+ // Generate token
+ const generateToken = async () => {
 
-  try{
+  try {
 
    setLoading(true);
 
-   const res = await api.post("/token/generate",{},{
-    headers
-   });
+   const res = await api.post(
+    "/token/generate",
+    {},
+    { headers }
+   );
 
-   // update UI immediately
-   if(res.data.token){
-    setToken(res.data.token.tokenNumber);
-   }
-
-   fetchStatus();
-
-  }catch(error){
-
-   // if token already exists
-   if(error.response && error.response.data){
-    alert(error.response.data.message);
-   }else{
-    alert("Something went wrong");
-   }
-
-   // still fetch status to sync UI
-   fetchStatus();
-
-  }finally{
-   setLoading(false);
-  }
-
- };
-
- // fetch token status
- const fetchStatus = async () =>{
-
-  try{
-
-   const res = await api.get("/token/status",{headers});
-
-   if(res.data.tokenNumber){
+   // Update UI immediately from response
+   if(res.data){
     setToken(res.data.tokenNumber);
+    setStudentsAhead(res.data.studentsAhead || 0);
+    setEstimatedWait(res.data.estimatedWait || 0);
    }
 
-   setStudentsAhead(res.data.studentsAhead || 0);
-   setEstimatedWait(res.data.estimatedWait || 0);
+   // Refresh queue status
+   await fetchStatus();
 
-  }catch(error){
-   console.log(error);
+  } catch (error) {
+
+   console.error(error);
+   alert("Token generation failed");
+
+  } finally {
+
+   setLoading(false);
+
   }
 
  };
 
- // real time updates
- useEffect(()=>{
+ // Fetch token status
+ const fetchStatus = async () => {
+
+  try {
+
+   const res = await api.get("/token/status",{ headers });
+
+   if(res.data){
+    setToken(res.data.tokenNumber);
+    setStudentsAhead(res.data.studentsAhead);
+    setEstimatedWait(res.data.estimatedWait);
+   }
+
+  } catch (error) {
+
+   console.log(error);
+
+  }
+
+ };
+
+ // Real-time updates
+ useEffect(() => {
 
   fetchStatus();
 
-  socket.on("queueUpdated",()=>{
+  socket.on("queueUpdated", () => {
    fetchStatus();
   });
 
-  return ()=>{
+  return () => {
    socket.off("queueUpdated");
-  }
+  };
 
- },[]);
+ }, []);
 
- return(
+ return (
 
  <div className="dashboard-wrapper container">
 
-  <div className="col-md-6 mx-auto">
+  <div className="col-md-6">
 
    <div className="token-card text-center">
 
@@ -324,7 +324,7 @@ export default function StudentDashboard(){
          Estimated Wait
         </p>
 
-        <h4>{estimatedWait}</h4>
+        <h4>{estimatedWait} min</h4>
 
        </div>
 

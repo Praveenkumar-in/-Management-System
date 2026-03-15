@@ -76,11 +76,9 @@
 //  // skip token
 //  const skipToken = async (tokenNumber)=>{
 
-//   if(!window.confirm(`Skip token ${tokenNumber}?`)) return;
-
 //   try{
 
-//    await api.post("/admin/skip",
+//    await api.post("/admin/skip-token",
 //     { tokenNumber },
 //     {
 //      headers:{
@@ -88,8 +86,6 @@
 //      }
 //     }
 //    );
-
-//    fetchQueue();
 
 //   }catch(error){
 //    alert("Error skipping token");
@@ -177,19 +173,19 @@
 
 //   <div className="row mb-4">
 
-//    <div className="col-md-3">
+//    <div className="col-md-4">
 
 //     <button
 //      className="btn btn-success w-100 control-btn"
 //      onClick={callNext}
 //     >
 //      <i className="bi bi-play-fill me-2"></i>
-//      Call Next
+//      Call Next Token
 //     </button>
 
 //    </div>
 
-//    <div className="col-md-3">
+//    <div className="col-md-4">
 
 //     <button
 //      className="btn btn-warning w-100 control-btn"
@@ -201,7 +197,7 @@
 
 //    </div>
 
-//    <div className="col-md-3">
+//    <div className="col-md-4">
 
 //     <button
 //      className="btn btn-danger w-100 control-btn"
@@ -209,18 +205,6 @@
 //     >
 //      <i className="bi bi-arrow-clockwise me-2"></i>
 //      Reset Queue
-//     </button>
-
-//    </div>
-
-//    <div className="col-md-3">
-
-//     <button
-//      className="btn btn-info w-100 control-btn"
-//      onClick={()=>window.open("/display","_blank")}
-//     >
-//      <i className="bi bi-display me-2"></i>
-//      Monitor Display
 //     </button>
 
 //    </div>
@@ -253,35 +237,22 @@
 //     <tbody>
 
 //      {queue.map((q)=>(
-
 //       <tr key={q._id}>
 
 //        <td>{q.tokenNumber}</td>
 
-//        <td>
-//         {q.status === "waiting" && (
-//          <span className="badge bg-warning text-dark">Waiting</span>
-//         )}
-
-//         {q.status === "serving" && (
-//          <span className="badge bg-success">Serving</span>
-//         )}
-
-//         {q.status === "skipped" && (
-//          <span className="badge bg-danger">Skipped</span>
-//         )}
-
-//        </td>
+//        <td>{q.status}</td>
 
 //        <td>
 
 //         {q.status === "waiting" && (
 
 //          <button
-//           className="btn btn-sm btn-outline-danger"
+//           className="btn btn-sm btn-warning"
 //           onClick={()=>skipToken(q.tokenNumber)}
 //          >
-//           <i className="bi bi-skip-forward-fill"></i>
+//           <i className="bi bi-skip-forward-fill me-1"></i>
+//           Skip
 //          </button>
 
 //         )}
@@ -289,7 +260,6 @@
 //        </td>
 
 //       </tr>
-
 //      ))}
 
 //     </tbody>
@@ -325,7 +295,7 @@ export default function AdminDashboard(){
    navigate("/admin-login");
   }
 
- },[]);
+ },[adminToken,navigate]);
 
  // fetch queue
  const fetchQueue = async ()=>{
@@ -333,8 +303,14 @@ export default function AdminDashboard(){
   try{
 
    const res = await api.get("/token/queue");
-
    setQueue(res.data);
+
+   if(res.data.length > 0){
+    const serving = res.data.find(q=>q.status === "serving");
+    if(serving){
+     setCurrentToken(serving.tokenNumber);
+    }
+   }
 
   }catch(error){
    console.log(error);
@@ -355,6 +331,8 @@ export default function AdminDashboard(){
 
    setCurrentToken(res.data.token.tokenNumber);
 
+   fetchQueue();
+
   }catch(error){
    alert("Error calling token");
   }
@@ -371,6 +349,8 @@ export default function AdminDashboard(){
      Authorization:`Bearer ${adminToken}`
     }
    });
+
+   fetchQueue();
 
   }catch(error){
    alert("Error");
@@ -392,6 +372,8 @@ export default function AdminDashboard(){
     }
    );
 
+   fetchQueue();
+
   }catch(error){
    alert("Error skipping token");
   }
@@ -409,28 +391,38 @@ export default function AdminDashboard(){
    }
   });
 
+  fetchQueue();
+
  };
 
  // logout
  const logout = ()=>{
 
   localStorage.removeItem("adminToken");
-
   navigate("/admin-login");
 
  };
 
- // realtime update
+ // realtime + auto refresh
  useEffect(()=>{
 
+  // initial load
   fetchQueue();
 
+  // socket realtime
   socket.on("queueUpdated",()=>{
    fetchQueue();
   });
 
+  // AUTO REFRESH EVERY 5 SECONDS
+  const interval = setInterval(()=>{
+   fetchQueue();
+  },5000);
+
+  // cleanup
   return ()=>{
    socket.off("queueUpdated");
+   clearInterval(interval);
   }
 
  },[]);
@@ -444,10 +436,8 @@ export default function AdminDashboard(){
   <div className="d-flex justify-content-between align-items-center mb-4">
 
    <h2 className="text-white">
-
     <i className="bi bi-speedometer2 me-2"></i>
     Admin Queue Control
-
    </h2>
 
    <button
@@ -467,9 +457,7 @@ export default function AdminDashboard(){
    <p>Currently Serving</p>
 
    <div className="current-token">
-
     {currentToken ? currentToken : "--"}
-
    </div>
 
   </div>
@@ -521,22 +509,18 @@ export default function AdminDashboard(){
   <div className="queue-table p-3">
 
    <h4 className="mb-3">
-
     <i className="bi bi-list-ol me-2"></i>
     Current Queue
-
    </h4>
 
    <table className="table table-dark table-striped">
 
     <thead>
-
      <tr>
       <th>Token</th>
       <th>Status</th>
       <th>Action</th>
      </tr>
-
     </thead>
 
     <tbody>
@@ -545,7 +529,6 @@ export default function AdminDashboard(){
       <tr key={q._id}>
 
        <td>{q.tokenNumber}</td>
-
        <td>{q.status}</td>
 
        <td>

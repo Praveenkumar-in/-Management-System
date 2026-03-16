@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import api from "../services/api";
 import socket from "../socket/socket";
@@ -41,8 +40,8 @@ export default function StudentDashboard() {
   } catch (error) {
 
    console.error(error);
-   alert("Token generation failed");
-
+//    alert("Token generation failed");
+  
   } finally {
 
    setLoading(false);

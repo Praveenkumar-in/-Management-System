@@ -85,7 +85,7 @@ export default function StudentDashboard() {
   // Auto refresh every 5 seconds
   const interval = setInterval(() => {
    fetchStatus();
-  }, 3000);
+  }, 1000);
 
   // Cleanup when component unmounts
   return () => {

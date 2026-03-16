@@ -248,8 +248,10 @@ node server.js
 
 ---
 
-# Author
+## 👨‍💻 Author
+**Praveen Kumar**  
 
-Praveen kumar
-
-GitHut: https://github.com/Praveenkumar-in/-Management-System
+🔗 [LinkedIn](https://www.linkedin.com/in/praveenkumar65/)  
+🔗 [GitHub](https://github.com/Praveenkumar-in)  
+- ⚠️ This project is protected under All Rights Reserved.
+- Unauthorized copying or use of this code is prohibited.

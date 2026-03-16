@@ -35,7 +35,7 @@ export default function StudentDashboard() {
     setEstimatedWait(res.data.estimatedWait || 0);
    }
 
-   await fetchStatus();
+    fetchStatus();
 
   } catch (error) {
 

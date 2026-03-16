@@ -40,7 +40,7 @@ export default function StudentDashboard() {
   } catch (error) {
 
    console.error(error);
-  //  alert("Token generation failed");
+    alert("Token generation failed");
   
   } finally {
 

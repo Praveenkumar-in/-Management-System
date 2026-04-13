@@ -103,7 +103,7 @@ Designed for **large monitor / TV display**
 ### 📺 Display Board
 ![Display](./disply.png)
 
-### 📸 Additional View
+### 📸 login View
 ![Extra](./screenshot-1776088348018.png)
 
 ---

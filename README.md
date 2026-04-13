@@ -1,18 +1,30 @@
-# Smart Queue Management System for College Fee Payment
+## 🚀 Smart Queue Management System for College Fee Payment
 
-A **full-stack MERN application** that digitizes the fee payment queue in college accounts offices.  
+A **full-stack MERN application** that digitizes the fee payment queue in college accounts offices.
+
 Students can generate **digital tokens**, track their position in the queue, and receive **real-time updates and SMS notifications**.
 
 Admins can manage the queue using a **control dashboard**, and a **public display board** shows the current token on a monitor.
 
 ---
 
+## 🌐 Live Demo
+
+👉 https://smart-queue-management-system-sage.vercel.app/
 
 ---
 
-# Tech Stack
+## 👨‍💻 Author
 
-## Frontend
+**Praveen Kumar**  
+🔗 https://www.linkedin.com/in/praveenkumar65/  
+🔗 https://github.com/Praveenkumar-in  
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
 - React (Vite)
 - Bootstrap 5
 - Bootstrap Icons
@@ -20,7 +32,7 @@ Admins can manage the queue using a **control dashboard**, and a **public displa
 - Axios
 - React Router
 
-## Backend
+### Backend
 - Node.js
 - Express.js
 - MongoDB (Mongoose)
@@ -28,56 +40,75 @@ Admins can manage the queue using a **control dashboard**, and a **public displa
 - JWT Authentication
 - SMS Integration (Fast2SMS)
 
-## Deployment
+### Deployment
 - Vercel (Frontend)
 - Render (Backend)
 - MongoDB Atlas (Database)
 
 ---
 
-# Features
+## ✨ Features
 
-## Student
-
-- Student Registration
-- Student Login
-- Generate Digital Token
-- View Queue Position
-- See Students Ahead
-- Estimated Waiting Time
-- Real-time queue updates
-- SMS notification when token generated
-- SMS alert when turn is near
+### 👤 Student
+- Student Registration & Login  
+- Generate Digital Token  
+- View Queue Position  
+- See Students Ahead  
+- Estimated Waiting Time  
+- Real-time queue updates  
+- SMS notification on token generation  
+- SMS alert when turn is near  
 
 ---
 
-## Admin
-
-- Admin Login
-- Call Next Token
-- Call Next 10 Tokens
-- Skip Token
-- Reset Queue
-- View Queue List
-- Real-time dashboard updates
-- Monitor display button
-
----
-
-## Public Display Board
-
-Designed for **large monitor / TV display** in the office.
-
-Shows:
-
-- Current token being served
-- Next tokens in queue
-- Counter information
-- Live updates using WebSockets
+### 👨‍💼 Admin
+- Admin Login  
+- Call Next Token  
+- Call Next 10 Tokens  
+- Skip Token  
+- Reset Queue  
+- View Queue List  
+- Real-time dashboard updates  
+- Monitor display control  
 
 ---
 
-# Project Structure
+### 📺 Public Display Board
+Designed for **large monitor / TV display**
+
+- Current token being served  
+- Upcoming tokens  
+- Counter information  
+- Live updates using WebSockets  
+
+---
+
+## 🖼️ Screenshots
+
+### 🔐 Admin Login
+![Admin Login](./admin%20login.png)
+
+### 📝 Registration Page
+![Register](./REG.png)
+
+### 👤 Student Dashboard / Token Generate
+![Token Generate](./token%20generate.png)
+
+### 🎟 Token Status View
+![Token Show](./token%20show.png)
+
+### 👨‍💼 Admin Dashboard
+![Admin Dashboard](./admindhas.png)
+
+### 📺 Display Board
+![Display](./disply.png)
+
+### 📸 Additional View
+![Extra](./screenshot-1776088348018.png)
+
+---
+
+## 📁 Project Structure
 
 ```
 smart-queue-management
@@ -85,83 +116,44 @@ smart-queue-management
 ├── backend
 │   ├── config
 │   │   └── db.js
-│   │
 │   ├── controllers
-│   │   ├── authController.js
-│   │   ├── tokenController.js
-│   │   └── adminController.js
-│   │
 │   ├── models
-│   │   ├── User.js
-│   │   ├── Token.js
-│   │   └── QueueSession.js
-│   │
 │   ├── routes
-│   │   ├── authRoutes.js
-│   │   ├── tokenRoutes.js
-│   │   └── adminRoutes.js
-│   │
 │   ├── middleware
-│   │   └── authMiddleware.js
-│   │
 │   ├── services
-│   │   └── smsService.js
-│   │
 │   ├── socket
-│   │   └── socket.js
-│   │
 │   ├── server.js
 │   └── package.json
 │
 └── frontend
     ├── src
     │   ├── components
-    │   │   └── Navbar.jsx
-    │   │
     │   ├── pages
-    │   │   ├── StudentLogin.jsx
-    │   │   ├── StudentRegister.jsx
-    │   │   ├── StudentDashboard.jsx
-    │   │   ├── AdminLogin.jsx
-    │   │   ├── AdminDashboard.jsx
-    │   │   └── DisplayBoard.jsx
-    │   │
     │   ├── services
-    │   │   └── api.js
-    │   │
     │   ├── socket
-    │   │   └── socket.js
-    │   │
     │   ├── App.jsx
     │   └── main.jsx
 ```
 
 ---
 
-# API Endpoints
+## 🔗 API Endpoints
 
-## Authentication
-
+### Authentication
 ```
 POST /api/auth/register
 POST /api/auth/login-student
 POST /api/auth/login-admin
 ```
 
----
-
-## Token System
-
+### Token System
 ```
 POST /api/token/generate
 GET  /api/token/status
 GET  /api/token/queue
 ```
 
----
-
-## Admin Controls
-
+### Admin Controls
 ```
 POST /api/admin/call-next
 POST /api/admin/call-next-10
@@ -171,9 +163,7 @@ POST /api/admin/reset
 
 ---
 
-# Real-Time Events (Socket.io)
-
-Events emitted by server:
+## ⚡ Real-Time Events (Socket.io)
 
 ```
 queueUpdated
@@ -182,76 +172,76 @@ tokenCalled
 queueReset
 ```
 
-These update:
-
-- Student dashboards
-- Admin dashboard
-- Display board
-
----
-
-
-
-
-
-
-
-# Deployment
-
-## Frontend → Vercel
-
-1. Push project to GitHub
-2. Import project in Vercel
-3. Select `frontend` folder
-4. Deploy
+These events update:
+- Student dashboard  
+- Admin dashboard  
+- Display board  
 
 ---
 
-## Backend → Render
+## ⚙️ Installation & Setup
 
-1. Create new Web Service
-2. Connect GitHub repository
-3. Set root directory:
+### Backend
+```
+cd backend
+npm install
+node server.js
+```
+
+### Frontend
+```
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+## 🔐 Environment Variables
+
+### Backend (.env)
 
 ```
-backend
+PORT=5000
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_secret_key
+
+FAST2SMS_API_KEY=your_api_key
+
+ADMIN_EMAIL=admin@gmail.com
+ADMIN_PASSWORD=admin123
 ```
 
-4. Start command
+---
 
+## 🚀 Deployment
+
+### Frontend → Vercel
+- Import GitHub repo  
+- Select `frontend` folder  
+- Deploy  
+
+### Backend → Render
+- Create Web Service  
+- Set root directory: `backend`  
+- Start command:
 ```
 node server.js
 ```
 
 ---
 
-# Screenshots
+## 🔮 Future Improvements
 
-### Student Dashboard
-(Add screenshot here)
-
-### Admin Control Panel
-(Add screenshot here)
-
-### Public Display Board
-(Add screenshot here)
+- 🔊 Voice announcement for tokens  
+- 🏢 Multi-counter support  
+- 📱 Mobile PWA app  
+- 📊 Queue analytics dashboard  
+- 🔔 Smart SMS reminders  
 
 ---
 
-# Future Improvements
+## 📜 License
 
-- Voice announcement for tokens
-- Multi-counter support
-- Mobile PWA app
-- Queue analytics dashboard
-- SMS reminders when turn approaches
-
----
-
-## 👨‍💻 Author
-**Praveen Kumar**  
-
-🔗 [LinkedIn](https://www.linkedin.com/in/praveenkumar65/)  
-🔗 [GitHub](https://github.com/Praveenkumar-in)  
-- ⚠️ This project is protected under All Rights Reserved.
-- Unauthorized copying or use of this code is prohibited.
+⚠️ This project is protected under **All Rights Reserved**.  
+Unauthorized copying or usage is strictly prohibited.
